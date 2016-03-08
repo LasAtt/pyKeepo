@@ -2,6 +2,7 @@
 
 import sys
 import subprocess
+import time
 
 if (len(sys.argv) < 1):
   print "No stream given."
