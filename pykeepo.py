@@ -1,8 +1,14 @@
 #!/usr/bin/env python
 
 import sys
-import subprocess
 import time
+from subprocess import Popen, PIPE, STDOUT
+
+try:
+    from subprocess import DEVNULL # py3k
+except ImportError:
+    import os
+    DEVNULL = open(os.devnull, 'wb')
 
 if (len(sys.argv) < 1):
   print "No stream given."
@@ -12,6 +18,6 @@ prefix = "http://twitch.tv/"
 url = prefix + streamname
 suffix = "/chat?popout="
 
-subprocess.Popen(["mpv", url])
-time.sleep(1)
-subprocess.Popen(["google-chrome", "--app=" + url + suffix])
+Popen(["mpv", url], stdin=PIPE, stdout=DEVNULL, stderr=STDOUT)
+Popen(["google-chrome", "--app=" + url + suffix], stdin=PIPE, stdout=DEVNULL, stderr=STDOUT)
+sys.exit()
